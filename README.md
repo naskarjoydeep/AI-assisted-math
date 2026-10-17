@@ -1,2 +1,2 @@
 # AI-assisted-math
-Lean verified mathematics results relevant to my taste in physics.
+Lean-verified AI-assisted mathematics results relevant to my taste in physics.
