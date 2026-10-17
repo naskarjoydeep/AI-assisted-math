@@ -25,11 +25,21 @@
 \newcommand{\Ma}[1]{\mathbf{M}_{#1}}
 
 \title{Kitaev's $\eps$-$C^*$ rigidity beyond finite dimensions:\\ what extends, what is Lean-checked, and what is open}
-\author{Notes on arXiv:2405.02434}
-\date{October 16, 2026}
+\author{Joydeep Naskar\\[2pt]
+{\small Beijing Institute of Mathematical Sciences and Applications (BIMSA)}\\
+{\small Huaibei Town, Huairou District, Beijing 101408, China}\\
+{\small\href{mailto:joydeepnaskar@bimsa.cn}{\texttt{joydeepnaskar@bimsa.cn}}}
+\and
+Claude\\[2pt]
+{\small Anthropic}}
+\date{October 18, 2026}
 
 \begin{document}
 \maketitle
+
+\begin{abstract}
+Kitaev showed that a finite-dimensional $\eps$-$C^*$ algebra, which satisfies the $C^*$ axioms up to errors of order $\eps$, is $O(\eps)$-isomorphic to a genuine $C^*$ algebra, and that an almost-idempotent quantum channel on a finite-dimensional Hilbert space approximately factors through such an algebra. We study which of these statements survive in infinite dimensions. When the Hilbert space is infinite-dimensional but the almost-invariant algebra is finite-dimensional, as for codes with a finite-dimensional logical system, both results hold with the same universal constants, since the two Choi representations in Kitaev's proof can be replaced by Stinespring dilations. In the course of the proof we correct two points of the published argument, namely the diagonal of a block algebra with two or more blocks and the exact case of an idempotent channel. The results also extend to $\ell^\infty$-direct sums of finite-dimensional $\eps$-$C^*$ algebras, because Kitaev's constants are uniform. For a general infinite-dimensional $\eps$-$C^*$ algebra the question is open. We identify where Kitaev's proof uses finite dimension, show that there is no local obstruction, and point to degree-three bounded cohomology of non-amenable groups as the likely source of a counterexample. Both positive results are verified in Lean~4 with Mathlib, conditional on the cited results of Kitaev's paper and on standard facts about completely positive maps.
+\end{abstract}
 
 \noindent
 All equation, theorem and section numbers of the form (12.37), Theorem~2.3, \S12 refer to Kitaev, \emph{Almost-idempotent quantum channels and approximate $C^*$-algebras}, arXiv:2405.02434v2.
@@ -40,7 +50,7 @@ Kitaev's Theorem~2.3 says that there are universal constants $\eps_0, C$ such th
 
 \begin{itemize}
 \item[(a)] \textbf{The physical Hilbert space $\cH$ is infinite-dimensional, but the almost-invariant algebra $\cA=\Img\wt\Phi$ is finite-dimensional.} This is the situation of bosonic or field-theoretic codes with a finite-dimensional logical system. Here the answer is \emph{yes}: both the bijection $v$ and Kitaev's UCP factorization $\Phi\approx\Delta\Upsilon$ (Theorem~12.3) hold, with the same universal constants and no assumption on $\dim\cH$ (Theorem~\ref{thm:A}). Kitaev states Theorem~12.3 only for $\dim\cH<\infty$; the proof uses finite dimensionality of $\cH$ only through two Choi representations, and both can be replaced by Stinespring dilations. Theorem~\ref{thm:A} is machine-checked in Lean, conditional on the cited results of Kitaev's paper and three textbook facts about completely positive maps (\S\ref{sec:lean}). The formalization exposed two points in the published argument that need repair, and both are fixed below.
-\item[(b)] \textbf{The $\eps$-$C^*$ algebra $\cA$ itself is infinite-dimensional.} If $\cA$ is an $\ell^\infty$-direct sum of finite-dimensional pieces (infinitely many finite sectors) the answer is \emph{yes}, because Kitaev's constants are uniform (Theorem~\ref{thm:B}). I have verified this reduction in Lean~4 with Mathlib, with Kitaev's finite-dimensional theorem as an explicit hypothesis (\S\ref{sec:lean}). For a general infinite-dimensional $\cA$ the question is \emph{open}. I can neither prove nor refute it, and I found no claim either way in the literature (Kitaev; Ranard--Walter--Witteveen, arXiv:2603.08702, who use the finite-dimensional theorem; Alekseev--Farah--Thom, arXiv:2606.03757, who remark that $\eps$-$C^*$ algebras are ``subtly different'' from Ulam stability). Section~\ref{sec:open} explains where Kitaev's proof needs $\dim\cA<\infty$. It also shows that no counterexample can be detected on finitely many elements, and identifies the most plausible place one could come from: degree-3 bounded cohomology of non-amenable groups.
+\item[(b)] \textbf{The $\eps$-$C^*$ algebra $\cA$ itself is infinite-dimensional.} If $\cA$ is an $\ell^\infty$-direct sum of finite-dimensional pieces (infinitely many finite sectors) the answer is \emph{yes}, because Kitaev's constants are uniform (Theorem~\ref{thm:B}). We have verified this reduction in Lean~4 with Mathlib, with Kitaev's finite-dimensional theorem as an explicit hypothesis (\S\ref{sec:lean}). For a general infinite-dimensional $\cA$ the question is \emph{open}. We can neither prove nor refute it, and we found no claim either way in the literature (Kitaev; Ranard--Walter--Witteveen, arXiv:2603.08702, who use the finite-dimensional theorem; Alekseev--Farah--Thom, arXiv:2606.03757, who remark that $\eps$-$C^*$ algebras are ``subtly different'' from Ulam stability). Section~\ref{sec:open} explains where Kitaev's proof needs $\dim\cA<\infty$. It also shows that no counterexample can be detected on finitely many elements, and identifies the most plausible place one could come from: degree-3 bounded cohomology of non-amenable groups.
 \end{itemize}
 
 \section{Infinite-dimensional $\cH$, finite-dimensional logical algebra}
@@ -187,15 +197,15 @@ If $t\|\beta\|_\infty<\pi$, there is no $U(1)$-valued 2-cocycle $\sigma$ (that i
 Write $e^{itc}\sigma^{-1}=e^{i\gamma}$ with $|\gamma|<\pi/4$ and $\sigma=e^{i\tau}$. Then $tc=\tau+\gamma+2\pi m$ with $m$ integer-valued, and $d\tau$ is $2\pi\mathbb{Z}$-valued because $\sigma$ is a cocycle. Applying $d$ shows that $t\beta-d\gamma$ is $2\pi\mathbb{Z}$-valued. But $|t\beta-d\gamma|<\pi+4\cdot\pi/4=2\pi$, so $t\beta=d\gamma$. Hence $\beta=d(\gamma/t)$ with $\gamma/t$ bounded, i.e.\ $[\beta]=0$ in $H^3_b$, a contradiction.
 \end{proof}
 
-Two steps separate this from a counterexample to the infinite-dimensional theorem, and I could not complete either.
+Two steps separate this from a counterexample to the infinite-dimensional theorem, and we could not complete either.
 \begin{enumerate}
 \item \emph{A $C^*$-type norm.} In $\ell^1(\Gamma)$ the basis-vector bounds extend to all elements, but $\ell^1$ violates the $C^*$ identity badly. For a norm satisfying (2.5) one needs the phases $e^{-it\beta}-1$ to be small as \emph{multipliers} on the relevant tensor products, which is much stronger than smallness in sup norm. Physically, this is Jackiw's non-associativity of magnetic translations in the presence of monopole density: in hyperbolic space, uniform charge density gives a uniformly bounded charge in every geodesic tetrahedron, so the associator is uniformly small, and the obstruction is a bounded volume-type class.
 \item \emph{Ungraded rigidity.} Proposition~\ref{prop:graded} excludes nearby \emph{graded} associative twists. A counterexample needs to exclude every $C^*$ algebra, i.e.\ the analogue of the spectral step in Proposition~\ref{prop:qm}. For non-nuclear algebras there is no spectral theory of the relevant elements to borrow.
 \end{enumerate}
 
-\subsection{What I expect}
+\subsection{What we expect}
 
-My guess is that the infinite-dimensional statement is true for $\eps$-$C^*$ algebras that are ``nuclear-like'', where approximate diagonals are available. I suspect it fails in general, with the counterexample living where bounded cohomology of non-amenable groups lives. This is a guess, not a result.
+Our guess is that the infinite-dimensional statement is true for $\eps$-$C^*$ algebras that are ``nuclear-like'', where approximate diagonals are available. We suspect that it fails in general, with the counterexample living where bounded cohomology of non-amenable groups lives. This is a guess, not a result.
 
 \section{What is verified in Lean}\label{sec:lean}
 
